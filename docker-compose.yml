@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  frontend:
+    #Dockerfile의 경로
+    build: ./frontend
+    command: ["npm", "start"]
+    ports:
+      - 3000:3000
+    networks:
+      - app-tier
+    # 연결할 외부 디렉토리 : 컨테이너 내 디렉토리(작업공간 app으로 설정해줌 -> frontend/Dockerfile)
+    volumes:
+      - ./frontend:/app
+  backend:
+    build: ./backend
+    ports:
+      - 8080:8080
+    networks:
+      - app-tier
+    volumes:
+      - ${GOOGLE_APPLICATION_CREDENTIALS}:/tmp/keys/application_default_credentials.json:ro
+    environment:
+      - GOOGLE_APPLICATION_CREDENTIALS=/tmp/keys/application_default_credentials.json
+  redis:
+      image: redis:alpine
+      command: redis-server --port 6379
+      container_name: redis_boot
+      hostname: redis_boot
+      labels:
+        - "name=redis"
+        - "mode=standalone"
+      ports:
+        - 6379:6379
+networks:
+  app-tier:
+    driver: bridge
