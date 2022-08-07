@@ -1,0 +1,3 @@
+[submodule "MATHRONE_Frontend_Submodule"]
+	path = MATHRONE_Frontend_Submodule
+	url = https://github.com/2021-Techeer-teamC/MATHRONE_Frontend.git
