@@ -29,7 +29,7 @@ jobs:
         echo "${{ secrets.BACK_PROPS }}" > application.properties
         cd /home/runner/work/MATHRONE_Docker/MATHRONE_Docker/MATHRONE_Backend_Submodule/src/main/resources/keys
         echo "${{ secrets.JWT_PROPS }}" > jwtKey.properties
-        cd /home/runner/work/MATHRONE_Docker/MATHRONE_Frontend_Submodule/src/pages/Oauth
+        cd /home/runner/work/MATHRONE_Docker/MATHRONE_Docker/MATHRONE_Frontend_Submodule/src/pages/Oauth
         echo "${{ secrets.OAUTH_DATA }}" > OauthData.ts
 
     - name: Grant execute permission for gradlew
