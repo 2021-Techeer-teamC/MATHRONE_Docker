@@ -33,6 +33,39 @@ services:
         - 6379:6379
       volumes:
       - ./redis:/data
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    volumes:
+      - ./prometheus/config/:/prometheus
+      - ./prometheus/prometheus-volume:/prometheus
+    ports:
+      - 9090:9090
+    command: # web.enalbe-lifecycle은 api 재시작없이 설정파일들을 reload 할 수 있게 해줌
+      - '--web.enable-lifecycle'
+    restart: always
+    networks:
+      - app-tier
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    # user: "$GRA_UID:$GRA_GID"
+    ports:
+      - 3030:3000
+    volumes:
+      - ./grafana/grafana-volume:/var/lib/grafana
+    restart: always
+    networks:
+      - app-tier
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    ports:
+      - 9100:9100
+    networks:
+      - app-tier
+
 networks:
   app-tier:
     driver: bridge
